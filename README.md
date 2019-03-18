@@ -4,4 +4,6 @@ Before running Vagrant up, change sitename on vagrant/setup.sh and vagrant/provi
 
 If you need it, also change mysql db name on vagrant/setup.sh and vagrant/db_backup.sh.
 
-Database will be backed up on halt or destroy to bachup/database.sql.
+Database will be backed up on halt or destroy to backup/database.sql.
+
+Apache log will be stored on log.
