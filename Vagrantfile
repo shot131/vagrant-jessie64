@@ -13,6 +13,14 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
+  env_vars = {
+    "MYSQL_PASSWORD" => "db_password",
+    "MYSQL_DB_NAME" => "db_name",
+    "SITE_NAME" => "site-name",
+    "SITE_URL" => "site-name.local",
+    "HOST_IP" => "192.168.56.101",
+    "BACKUP_DIR" => "/vagrant/backup"
+  }
   config.vagrant.plugins = ["vagrant-vbguest"]
   config.vm.box = "debian/jessie64"
 
@@ -40,8 +48,8 @@ Vagrant.configure("2") do |config|
   # Bridged networks make the machine appear as another physical device on
   # your network.
   # config.vm.network "public_network"
-  config.vm.hostname = "phuketrentmix.local"
-  config.vm.network "private_network", ip: "192.168.56.101"
+  config.vm.hostname = env_vars["SITE_URL"]
+  config.vm.network "private_network", ip: env_vars["HOST_IP"]
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -65,7 +73,7 @@ Vagrant.configure("2") do |config|
   # information on available options.
   config.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
-      vb.name = "phuketrentmix"
+      vb.name = env_vars["SITE_NAME"]
   end
 
   # Enable provisioning with a shell script. Additional provisioners such as
@@ -75,11 +83,11 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision "shell", path: "vagrant/setup.sh"
-  config.vm.provision "shell", path: "vagrant/on_up.sh", run: "always"
+  config.vm.provision "shell", path: "vagrant/setup.sh", env: env_vars
+  config.vm.provision "shell", path: "vagrant/on_up.sh", run: "always", env: env_vars
 
   config.trigger.before :destroy, :halt do |trigger|
     trigger.info = "Backing up db"
-    trigger.run_remote = {path: "vagrant/db_backup.sh"}
+    trigger.run_remote = {path: "vagrant/db_backup.sh", env: env_vars}
   end
 end
