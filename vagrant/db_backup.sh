@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-BACKUP_DIR="/vagrant/backup"
-
 mkdir -p $BACKUP_DIR
-mysqldump -u root -pvagrant sitename > "$BACKUP_DIR/sitename.sql"
+mysqldump -u root -p$MYSQL_PASSWORD $MYSQL_DB_NAME > "$BACKUP_DIR/$MYSQL_DB_NAME.sql"
