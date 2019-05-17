@@ -1,9 +1,9 @@
-Vagrant lamp on debian jessie64 (apache 2.4 (mod_php), mysql 5.5, php7.1, composer).
+Vagrant LAMP on Debian Jessie64 (apache 2.4 (mod_php), mysql 5.5, php7.1, composer).
 
-Before running Vagrant up, change sitename on vagrant/setup.sh and vagrant/provision/sitename.local.conf.
+Before running vagrant up, change env_vars in Vagrant file.
 
-If you need it, also change mysql db name on vagrant/setup.sh and vagrant/db_backup.sh.
+On halt or destroy database will be backed up to /backup dir.
 
-Database will be backed up on halt or destroy to backup/database.sql.
+Apache logs will be stored to /log dir.
 
-Apache log will be stored on log.
+Don\`t forget to add ip and site url to your local hosts file or it\`s not be visible from the browser.
