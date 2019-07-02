@@ -8,7 +8,7 @@ sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/
 apt-get update -y
 
 apt-get install -y --force-yes apache2 libapache2-mod-php7.1
-apt-get install -y --force-yes php7.1 php7.1-cli php7.1-cgi php7.1-common php7.1-curl php7.1-gd php7.1-json php7.1-mbstring php7.1-mysql php7.1-xml php7.1-pdo php7.1-intl php-xdebug
+apt-get install -y --force-yes php7.1 php7.1-cli php7.1-cgi php7.1-common php7.1-curl php7.1-gd php7.1-json php7.1-mbstring php7.1-mysql php7.1-xml php7.1-pdo php7.1-intl php7.1-zip php-xdebug
 mkdir -p /vagrant/log
 a2enmod actions php7.1 rewrite alias
 service apache2 start
