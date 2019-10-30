@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 apt-get update -y && apt-get upgrade -y
-apt-get install -y --force-yes curl build-essential python-software-properties tmux screen apt-transport-https lsb-release ca-certificates wget nano zip unzip mc
+apt-get install -y --force-yes curl build-essential python-software-properties tmux screen apt-transport-https lsb-release ca-certificates wget nano zip unzip mc openssl
 service sshd restart
 
 wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -9,8 +9,7 @@ apt-get update -y
 
 apt-get install -y --force-yes apache2 libapache2-mod-php7.1
 apt-get install -y --force-yes php7.1 php7.1-cli php7.1-cgi php7.1-common php7.1-curl php7.1-gd php7.1-json php7.1-mbstring php7.1-mysql php7.1-xml php7.1-pdo php7.1-intl php7.1-zip php-xdebug
-mkdir -p /vagrant/log
-a2enmod actions php7.1 rewrite alias
+a2enmod actions php7.1 rewrite alias ssl
 service apache2 start
 update-rc.d apache2 enable
 sudo usermod -a -G vagrant www-data
@@ -27,3 +26,6 @@ update-rc.d mysql defaults
 service mysql start
 update-rc.d mysql enable
 mysql -u root -p$MYSQL_PASSWORD -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DB_NAME;"
+
+openssl genrsa -out /vagrant/$SITE_URL.key 2048
+openssl req -new -x509 -key /vagrant/$SITE_URL.key -out /vagrant/$SITE_URL.crt -days 10000 -subj /CN=$SITE_URL
